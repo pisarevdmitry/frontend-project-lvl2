@@ -5,5 +5,5 @@ publish:
 		npm publish --dry-run
 lint:
 		npx eslint .
-test:
+tests:
 	NODE_OPTIONS=--experimental-vm-modules npx jest	
