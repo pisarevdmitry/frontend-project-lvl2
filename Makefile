@@ -8,4 +8,4 @@ lint:
 tests:
 	NODE_OPTIONS=--experimental-vm-modules npx jest	--bail	
 tests-coverage:	
-	make tests --coverage --coverageProvider=v8
+	make tests --  --coverage --coverageProvider=v8
