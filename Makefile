@@ -6,4 +6,6 @@ publish:
 lint:
 		npx eslint .
 tests:
-	NODE_OPTIONS=--experimental-vm-modules npx jest	
+	NODE_OPTIONS=--experimental-vm-modules npx jest	--bail	
+tests-coverage:	
+	make tests --coverage --coverageProvider=v8
