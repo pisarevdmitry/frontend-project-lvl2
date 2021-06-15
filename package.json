@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/pisarevdmitry/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/pisarevdmitry/frontend-project-lvl2/actions)",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,12 +14,14 @@
     "gendiff": "bin/gendiff.js"
   },
   "author": "",
+  "type": "module",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/pisarevdmitry/frontend-project-lvl2/issues"
   },
   "homepage": "https://github.com/pisarevdmitry/frontend-project-lvl2#readme",
   "dependencies": {
-    "commander": "^7.2.0"
+    "commander": "^7.2.0",
+    "lodash": "^4.17.21"
   }
 }
