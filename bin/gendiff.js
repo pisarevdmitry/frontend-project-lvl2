@@ -9,9 +9,10 @@ program
 
 program
   .arguments('<filepath1> <filepath2>')
-  .option('-f, --format [type]', 'output format');
+  .option('-f, --format [type]', 'output format (default: "stylish")', 'stylish');
 
 program.action((filepath1, filepath2) => {
+  // console.log(program.opts().format);
   const result = gendiff(filepath1, filepath2);
   console.log(result);
 });
