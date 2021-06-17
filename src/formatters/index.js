@@ -8,4 +8,7 @@ const formatters = {
   json,
 };
 
-export default (compared, format) => formatters[format](compared);
+export default (compared, format) => {
+  console.log(format);
+  return formatters[format](compared);
+};
