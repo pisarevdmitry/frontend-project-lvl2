@@ -8,3 +8,4 @@ Example with plain jsons: https://asciinema.org/a/1T7tjJ8V0VF1aLFhrnARsR6Ui
 Example with plain yamls: https://asciinema.org/a/t8hw8K1NQGQcLedOE7R3DAXyh
 Example with stylish format https://asciinema.org/a/yo2ZK5FfgNkugPinnPBqUnhfE
 Example with plain format  https://asciinema.org/a/3qhpCAcqEC3uPTN7awzMttMmG
+Example with json format https://asciinema.org/a/OBUhsVSn1LhnC3Fv60K166bMW
