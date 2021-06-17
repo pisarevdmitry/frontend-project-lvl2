@@ -19,8 +19,8 @@ const plain = (compared) => {
           return `Property '${path}${key}' was removed`;
         }
         case 'changed': {
-          const { from, to } = nested[key];
-          return `Property '${path}${key}' was updated. From ${formatReturnValue(from)} to ${formatReturnValue(to)}`;
+          const { oldValue } = nested[key];
+          return `Property '${path}${key}' was updated. From ${formatReturnValue(oldValue)} to ${formatReturnValue(value)}`;
         }
         case 'unchanged': {
           return null;

@@ -28,8 +28,8 @@ const compare = (obj1, obj2) => {
     if (obj1[key] !== obj2[key]) {
       const elem = {
         status: 'changed',
-        from: obj1[key],
-        to: obj2[key],
+        oldValue: obj1[key],
+        value: obj2[key],
       };
       return { ...acc, [key]: elem };
     }

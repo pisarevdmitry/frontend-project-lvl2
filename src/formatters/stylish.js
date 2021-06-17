@@ -43,12 +43,12 @@ const stylish = (compared) => {
           });
         }
         case 'changed': {
-          const { from, to } = nested[key];
+          const { oldValue } = nested[key];
           const deleted = styleChangedValue({
-            indent, value: from, key, space, depth: depth + 1, symbol: '-',
+            indent, value: oldValue, key, space, depth: depth + 1, symbol: '-',
           });
           const added = styleChangedValue({
-            indent, value: to, key, space, depth: depth + 1, symbol: '+',
+            indent, value, key, space, depth: depth + 1, symbol: '+',
           });
           return `${deleted}\n${added}`;
         }
