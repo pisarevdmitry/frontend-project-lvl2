@@ -18,6 +18,5 @@ test('shoult work2', () => {
   const filepath2 = getFixturePath('json1.json');
   const result = gendiff(filepath1, filepath2, 'json');
   const expected = '{"common":{"value":{"follow":{"status":"deleted","value":false},"setting1":{"status":"unchanged","value":"Value 1"},"setting3":{"status":"changed","from":null,"to":true},"setting4":{"status":"deleted","value":"blah blah"},"setting5":{"status":"deleted","value":{"key5":"value5"}},"setting6":{"value":{"key":{"status":"unchanged","value":"value"},"ops":{"status":"deleted","value":"vops"},"doge":{"value":{"wow":{"status":"changed","from":"so much","to":""}}}}},"setting2":{"status":"added","value":200}}},"group1":{"value":{"foo":{"status":"unchanged","value":"bar"},"baz":{"status":"changed","from":"bars","to":"bas"},"nest":{"status":"changed","from":"str","to":{"key":"value"}}}},"group3":{"status":"deleted","value":{"deep":{"id":{"number":45}},"fee":100500}},"group2":{"status":"added","value":{"abc":12345,"deep":{"id":45}}}}';
-  console.log(result);
   expect(result).toBe(expected);
 });
