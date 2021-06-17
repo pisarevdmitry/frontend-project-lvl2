@@ -1,6 +1,6 @@
 import _ from 'lodash';
+import isComplex from './utils.js';
 
-const isComplex = (value) => value && typeof (value) === 'object';
 const cloneValue = (value) => (isComplex(value) ? _.cloneDeep(value) : value);
 
 const compare = (obj1, obj2) => {

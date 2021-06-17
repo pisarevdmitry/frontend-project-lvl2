@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-const isComplex = (value) => value && typeof (value) === 'object';
+import isComplex from '../utils.js';
 
 const formatNotCompared = (nested, depth) => {
   const keys = _.sortBy(Object.keys(nested));

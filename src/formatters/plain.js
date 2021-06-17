@@ -1,6 +1,6 @@
 import _ from 'lodash';
+import isComplex from '../utils.js';
 
-const isComplex = (value) => value && typeof (value) === 'object';
 const returnValue = (value) => {
   if (isComplex(value)) return '[complex value]';
   if (typeof (value) === 'string') return `'${value}'`;
