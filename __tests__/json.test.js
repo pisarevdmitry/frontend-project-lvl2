@@ -1,6 +1,9 @@
 import { test, expect } from '@jest/globals';
 import path from 'path';
 import process from 'process';
+import { readFileSync } from 'fs';
+import parseFile from '../src/parsers.js';
+import compare from '../src/compare.js';
 import gendiff from '../src/index.js';
 
 const getFixturePath = (filename) => path.join(process.cwd(), '__fixtures__', filename);
@@ -9,7 +12,10 @@ test('shoult work1', () => {
   const filepath1 = getFixturePath('Yaml1.yaml');
   const filepath2 = getFixturePath('json2.json');
   const result = gendiff(filepath1, filepath2, 'json');
-  const expected = '{"common":{"value":{"setting1":{"status":"changed","oldValue":"Value 10","value":"Value 1"},"setting2":{"status":"deleted","value":300},"setting3":{"status":"changed","oldValue":"somevalue","value":null},"setting6":{"value":{"key":{"status":"changed","oldValue":"status","value":"value"},"doge":{"value":{"wow":{"status":"changed","oldValue":"12","value":"so much"}}},"ops":{"status":"added","value":"vops"}}},"follow":{"status":"added","value":false},"setting4":{"status":"added","value":"blah blah"},"setting5":{"status":"added","value":{"key5":"value5"}}}},"group1":{"value":{"baz":{"status":"changed","oldValue":"bas","value":"bars"},"foo":{"status":"unchanged","value":"bar"},"nest":{"status":"changed","oldValue":{"key":"value"},"value":"str"}}},"group2":{"status":"deleted","value":{"abc":12345,"deep":{"id":90}}},"group3":{"status":"added","value":{"deep":{"id":{"number":45}},"fee":100500}}}';
+  const data1 = parseFile(readFileSync(filepath1, 'utf8'), path.extname(filepath1).slice(1));
+  const data2 = parseFile(readFileSync(filepath2, 'utf8'), path.extname(filepath2).slice(1));
+  const compared = compare(data1, data2);
+  const expected = JSON.stringify(compared);
   expect(result).toBe(expected);
 });
 
@@ -17,6 +23,9 @@ test('shoult work2', () => {
   const filepath1 = getFixturePath('Yaml2.yml');
   const filepath2 = getFixturePath('json1.json');
   const result = gendiff(filepath1, filepath2, 'json');
-  const expected = '{"common":{"value":{"follow":{"status":"deleted","value":false},"setting1":{"status":"unchanged","value":"Value 1"},"setting3":{"status":"changed","oldValue":null,"value":true},"setting4":{"status":"deleted","value":"blah blah"},"setting5":{"status":"deleted","value":{"key5":"value5"}},"setting6":{"value":{"key":{"status":"unchanged","value":"value"},"ops":{"status":"deleted","value":"vops"},"doge":{"value":{"wow":{"status":"changed","oldValue":"so much","value":""}}}}},"setting2":{"status":"added","value":200}}},"group1":{"value":{"foo":{"status":"unchanged","value":"bar"},"baz":{"status":"changed","oldValue":"bars","value":"bas"},"nest":{"status":"changed","oldValue":"str","value":{"key":"value"}}}},"group3":{"status":"deleted","value":{"deep":{"id":{"number":45}},"fee":100500}},"group2":{"status":"added","value":{"abc":12345,"deep":{"id":45}}}}';
+  const data1 = parseFile(readFileSync(filepath1, 'utf8'), path.extname(filepath1).slice(1));
+  const data2 = parseFile(readFileSync(filepath2, 'utf8'), path.extname(filepath2).slice(1));
+  const compared = compare(data1, data2);
+  const expected = JSON.stringify(compared);
   expect(result).toBe(expected);
 });
