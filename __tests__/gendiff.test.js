@@ -5,10 +5,10 @@ import gendiff from '../src/index.js';
 
 const getFixturePath = (filename) => path.join(process.cwd(), '__fixtures__', filename);
 
-test('test  json', () => {
+test('test  stylish', () => {
   const filepath1 = getFixturePath('json1.json');
   const filepath2 = getFixturePath('Yaml2.yml');
-  const result = gendiff(filepath1, filepath2);
+  const result = gendiff(filepath1, filepath2, 'stylish');
   const expected = `{
     common: {
       + follow: false
@@ -53,5 +53,23 @@ test('test  json', () => {
         fee: 100500
     }
 }`;
+  expect(result).toBe(expected);
+});
+
+test('test  plain', () => {
+  const filepath1 = getFixturePath('Yaml1.yaml');
+  const filepath2 = getFixturePath('json2.json');
+  const result = gendiff(filepath1, filepath2, 'plain');
+  const expected = `Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]`;
   expect(result).toBe(expected);
 });

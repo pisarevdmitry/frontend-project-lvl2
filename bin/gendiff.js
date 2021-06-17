@@ -13,7 +13,7 @@ program
 
 program.action((filepath1, filepath2) => {
   // console.log(program.opts().format);
-  const result = gendiff(filepath1, filepath2);
+  const result = gendiff(filepath1, filepath2, program.opts().format);
   console.log(result);
 });
 program.parse(process.argv);
