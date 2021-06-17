@@ -13,7 +13,6 @@ const gendiff = (filepath1, filepath2, outputFormat = 'stylish') => {
   const data1 = parseFile(file1, path.extname(pathToFile1).slice(1));
   const data2 = parseFile(file2, path.extname(pathToFile2).slice(1));
   const compared = compare(data1, data2);
-  console.log('output', outputFormat, compared);
   const result = format(compared, outputFormat);
   return result;
 };
