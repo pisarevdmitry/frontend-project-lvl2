@@ -1,12 +1,12 @@
 
   common:
-    setting1: Value 1
-    setting2: 200
-    setting3: true
+    setting1: Value 10
+    setting2: 300
+    setting3: 'somevalue'
     setting6: 
-      key: "value"
+      key: "status"
       doge:
-        wow: ""    
+        wow: "12"    
   group1: 
     baz: bas
     foo: bar
@@ -15,4 +15,4 @@
   group2: 
     abc: 12345
     deep: 
-      id: 45
+      id: 90
