@@ -1,12 +1,11 @@
 import _ from 'lodash';
-import isComplex from '../utils.js';
 
 const formatNotCompared = (nested, depth) => {
   const keys = _.sortBy(Object.keys(nested));
   return keys.map((key) => {
     const indent = depth * 4;
     const space = ' '.repeat(indent);
-    return isComplex(nested[key])
+    return _.isObject(nested[key])
       ? `${space}${key}: {\n${formatNotCompared(nested[key], depth + 1)}\n${space}}`
       : `${space}${key}: ${nested[key]}`;
   }).join('\n');
@@ -17,7 +16,7 @@ const styleChangedValue = (params) => {
     value, space, indent, depth, symbol, key,
   } = params;
 
-  return isComplex(value)
+  return _.isObject(value)
     ? `${' '.repeat(indent - 2)}${symbol} ${key}: {\n${formatNotCompared(value, depth)}\n${space}}`
     : `${' '.repeat(indent - 2)}${symbol} ${key}: ${value}`;
 };

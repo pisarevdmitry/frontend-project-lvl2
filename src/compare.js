@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import isComplex from './utils.js';
 
-const cloneValue = (value) => (isComplex(value) ? _.cloneDeep(value) : value);
+const cloneValue = (value) => (_.isObject(value) ? _.cloneDeep(value) : value);
 
 const compare = (obj1, obj2) => {
   const mergedKeys = Object.keys({ ...obj1, ...obj2 });
@@ -20,7 +19,7 @@ const compare = (obj1, obj2) => {
       };
       return { ...acc, [key]: elem };
     }
-    if (isComplex(obj1[key]) && isComplex(obj2[key])) {
+    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
       const elem = {
         value: compare(obj1[key], obj2[key]),
       };
