@@ -12,6 +12,16 @@ const formatNotCompared = (nested, depth) => {
   }).join('\n');
 };
 
+const styleChangedValue = (params) => {
+  const {
+    value, space, indent, depth, symbol, key,
+  } = params;
+
+  return isComplex(value)
+    ? `${' '.repeat(indent - 2)}${symbol} ${key}: {\n${formatNotCompared(value, depth)}\n${space}}`
+    : `${' '.repeat(indent - 2)}${symbol} ${key}: ${value}`;
+};
+
 const stylish = (compared) => {
   const iter = (nested, depth) => {
     const keys = _.sortBy(Object.keys(nested));
@@ -24,24 +34,24 @@ const stylish = (compared) => {
           return `${space}${key}: ${value}`;
         }
         case 'added': {
-          return isComplex(value)
-            ? `${' '.repeat(indent - 2)}+ ${key}: {\n${formatNotCompared(value, depth + 1)}\n${space}}`
-            : `${' '.repeat(indent - 2)}+ ${key}: ${value}`;
+          return styleChangedValue({
+            indent, value, key, space, depth: depth + 1, symbol: '+',
+          });
         }
         case 'deleted': {
-          return isComplex(value)
-            ? `${' '.repeat(indent - 2)}- ${key}: {\n${formatNotCompared(value, depth + 1)}\n${space}}`
-            : `${' '.repeat(indent - 2)}- ${key}: ${value}`;
+          return styleChangedValue({
+            indent, value, key, space, depth: depth + 1, symbol: '-',
+          });
         }
         case 'changed': {
           const { from, to } = nested[key];
-          const added = isComplex(from)
-            ? `${' '.repeat(indent - 2)}- ${key}: {\n${formatNotCompared(from, depth + 1)}\n${space}}`
-            : `${' '.repeat(indent - 2)}- ${key}: ${from}`;
-          const deleted = isComplex(to)
-            ? `${' '.repeat(indent - 2)}+ ${key}: {\n${formatNotCompared(to, depth + 1)}\n${space}}`
-            : `${' '.repeat(indent - 2)}+ ${key}: ${to}`;
-          return `${added}\n${deleted}`;
+          const deleted = styleChangedValue({
+            indent, value: from, key, space, depth: depth + 1, symbol: '-',
+          });
+          const added = styleChangedValue({
+            indent, value: to, key, space, depth: depth + 1, symbol: '+',
+          });
+          return `${deleted}\n${added}`;
         }
         default:
           return `${space}${key}: {\n${iter(value, depth + 1, true)}\n${space}}`;
