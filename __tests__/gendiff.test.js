@@ -5,7 +5,7 @@ import gendiff from '../src/index.js';
 
 const getFixturePath = (filename) => path.join(process.cwd(), '__fixtures__', filename);
 
-test('test  stylish', () => {
+test('stylish', () => {
   const filepath1 = getFixturePath('json1.json');
   const filepath2 = getFixturePath('Yaml2.yml');
   const result = gendiff(filepath1, filepath2, 'stylish');
@@ -56,7 +56,7 @@ test('test  stylish', () => {
   expect(result).toBe(expected);
 });
 
-test('test  plain', () => {
+test('plain', () => {
   const filepath1 = getFixturePath('Yaml1.yaml');
   const filepath2 = getFixturePath('json2.json');
   const result = gendiff(filepath1, filepath2, 'plain');
