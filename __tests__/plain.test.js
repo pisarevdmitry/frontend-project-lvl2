@@ -1,14 +1,8 @@
 import { test, expect } from '@jest/globals';
-import path from 'path';
-import process from 'process';
-import gendiff from '../src/index.js';
-
-const getFixturePath = (filename) => path.join(process.cwd(), '__fixtures__', filename);
+import { getResult } from '../testUtils.js';
 
 test('shoult work1', () => {
-  const filepath1 = getFixturePath('Yaml1.yaml');
-  const filepath2 = getFixturePath('json2.json');
-  const result = gendiff(filepath1, filepath2, 'plain');
+  const result = getResult('Yaml1.yaml', 'json2.json', 'plain');
   const expected = `Property 'common.follow' was added with value: false
 Property 'common.setting1' was updated. From 'Value 10' to 'Value 1'
 Property 'common.setting2' was removed
@@ -26,9 +20,7 @@ Property 'group3' was added with value: [complex value]`;
 });
 
 test('shoult work2', () => {
-  const filepath1 = getFixturePath('Yaml2.yml');
-  const filepath2 = getFixturePath('json1.json');
-  const result = gendiff(filepath1, filepath2, 'plain');
+  const result = getResult('Yaml2.yml', 'json1.json', 'plain');
   const expected = `Property 'common.follow' was removed
 Property 'common.setting2' was added with value: 200
 Property 'common.setting3' was updated. From null to true
@@ -43,9 +35,7 @@ Property 'group3' was removed`;
   expect(result).toBe(expected);
 });
 test('should work3', () => {
-  const filepath1 = getFixturePath('Yaml1.yaml');
-  const filepath2 = getFixturePath('empty.json');
-  const result = gendiff(filepath1, filepath2, 'plain');
+  const result = getResult('Yaml1.yaml', 'empty.json', 'plain');
   const expected = `Property 'common' was removed
 Property 'group1' was removed
 Property 'group2' was removed`;
@@ -53,9 +43,7 @@ Property 'group2' was removed`;
 });
 
 test('should work4', () => {
-  const filepath1 = getFixturePath('empty.yml');
-  const filepath2 = getFixturePath('empty.json');
-  const result = gendiff(filepath1, filepath2, 'plain');
+  const result = getResult('empty.yml', 'empty.json', 'plain');
   const expected = '';
   expect(result).toBe(expected);
 });

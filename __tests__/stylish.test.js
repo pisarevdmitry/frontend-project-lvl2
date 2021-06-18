@@ -1,14 +1,8 @@
 import { test, expect } from '@jest/globals';
-import path from 'path';
-import process from 'process';
-import gendiff from '../src/index.js';
-
-const getFixturePath = (filename) => path.join(process.cwd(), '__fixtures__', filename);
+import { getResult } from '../testUtils.js';
 
 test('should work1', () => {
-  const filepath1 = getFixturePath('json1.json');
-  const filepath2 = getFixturePath('Yaml2.yml');
-  const result = gendiff(filepath1, filepath2);
+  const result = getResult('json1.json', 'Yaml2.yml');
   const expected = `{
     common: {
       + follow: false
@@ -57,9 +51,7 @@ test('should work1', () => {
 });
 
 test('should work2', () => {
-  const filepath1 = getFixturePath('Yaml1.yaml');
-  const filepath2 = getFixturePath('json2.json');
-  const result = gendiff(filepath1, filepath2, 'stylish');
+  const result = getResult('Yaml1.yaml', 'json2.json');
   const expected = `{
     common: {
       + follow: false
@@ -110,9 +102,7 @@ test('should work2', () => {
 });
 
 test('should work3', () => {
-  const filepath1 = getFixturePath('Yaml1.yaml');
-  const filepath2 = getFixturePath('empty.json');
-  const result = gendiff(filepath1, filepath2, 'stylish');
+  const result = getResult('Yaml1.yaml', 'empty.json');
   const expected = `{
   - common: {
         setting1: Value 10
@@ -143,9 +133,7 @@ test('should work3', () => {
 });
 
 test('should work4', () => {
-  const filepath1 = getFixturePath('empty.yml');
-  const filepath2 = getFixturePath('empty.json');
-  const result = gendiff(filepath1, filepath2, 'stylish');
+  const result = getResult('empty.yml', 'empty.json');
   const expected = '{\n\n}';
   expect(result).toBe(expected);
 });
