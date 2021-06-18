@@ -42,3 +42,20 @@ Property 'group2' was added with value: [complex value]
 Property 'group3' was removed`;
   expect(result).toBe(expected);
 });
+test('should work3', () => {
+  const filepath1 = getFixturePath('Yaml1.yaml');
+  const filepath2 = getFixturePath('empty.json');
+  const result = gendiff(filepath1, filepath2, 'plain');
+  const expected = `Property 'common' was removed
+Property 'group1' was removed
+Property 'group2' was removed`;
+  expect(result).toBe(expected);
+});
+
+test('should work4', () => {
+  const filepath1 = getFixturePath('empty.yml');
+  const filepath2 = getFixturePath('empty.json');
+  const result = gendiff(filepath1, filepath2, 'plain');
+  const expected = '';
+  expect(result).toBe(expected);
+});

@@ -108,3 +108,44 @@ test('should work2', () => {
 }`;
   expect(result).toBe(expected);
 });
+
+test('should work3', () => {
+  const filepath1 = getFixturePath('Yaml1.yaml');
+  const filepath2 = getFixturePath('empty.json');
+  const result = gendiff(filepath1, filepath2, 'stylish');
+  const expected = `{
+  - common: {
+        setting1: Value 10
+        setting2: 300
+        setting3: somevalue
+        setting6: {
+            doge: {
+                wow: 12
+            }
+            key: status
+        }
+    }
+  - group1: {
+        baz: bas
+        foo: bar
+        nest: {
+            key: value
+        }
+    }
+  - group2: {
+        abc: 12345
+        deep: {
+            id: 90
+        }
+    }
+}`;
+  expect(result).toBe(expected);
+});
+
+test('should work4', () => {
+  const filepath1 = getFixturePath('empty.yml');
+  const filepath2 = getFixturePath('empty.json');
+  const result = gendiff(filepath1, filepath2, 'stylish');
+  const expected = '{\n\n}';
+  expect(result).toBe(expected);
+});
