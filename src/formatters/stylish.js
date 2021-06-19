@@ -23,35 +23,36 @@ const styleChangedValue = (key, value, depth, symbol) => {
     : `${indentCompared}${symbol} ${key}: ${value}`;
 };
 
-const stylish = (compared) => {
-  const iter = (nested, depth) => {
-    const keys = _.sortBy(Object.keys(nested));
-    return keys.map((key) => {
-      const { status, value } = nested[key];
-      switch (status) {
-        case 'unchanged': {
-          return `${calcIndent(depth)}${key}: ${value}`;
-        }
-        case 'added': {
-          return styleChangedValue(key, value, depth, '+');
-        }
-        case 'deleted': {
-          return styleChangedValue(key, value, depth, '-');
-        }
-        case 'changed': {
-          const { oldValue } = nested[key];
-          const deleted = styleChangedValue(key, oldValue, depth, '-');
-          const added = styleChangedValue(key, value, depth, '+');
-          return `${deleted}\n${added}`;
-        }
-        default: {
-          const space = calcIndent(depth);
-          return `${space}${key}: {\n${iter(value, depth + 1, true)}\n${space}}`;
-        }
+const iterateTree = (nested, depth) => {
+  const keys = _.sortBy(Object.keys(nested));
+  return keys.map((key) => {
+    const { status, value } = nested[key];
+    switch (status) {
+      case 'unchanged': {
+        return `${calcIndent(depth)}${key}: ${value}`;
       }
-    }).join('\n');
-  };
-  const result = iter(compared, 1, true);
+      case 'added': {
+        return styleChangedValue(key, value, depth, '+');
+      }
+      case 'deleted': {
+        return styleChangedValue(key, value, depth, '-');
+      }
+      case 'changed': {
+        const { oldValue } = nested[key];
+        const deleted = styleChangedValue(key, oldValue, depth, '-');
+        const added = styleChangedValue(key, value, depth, '+');
+        return `${deleted}\n${added}`;
+      }
+      default: {
+        const space = calcIndent(depth);
+        return `${space}${key}: {\n${iterateTree(value, depth + 1, true)}\n${space}}`;
+      }
+    }
+  }).join('\n');
+};
+
+const stylish = (compared) => {
+  const result = iterateTree(compared, 1, true);
   return `{\n${result}\n}`;
 };
 
