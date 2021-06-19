@@ -1,8 +1,9 @@
 import _ from 'lodash';
 
 const calcIndent = (depth, isCompared = false) => {
-  const base = 4;
-  const indent = isCompared ? (depth * base) - 2 : depth * base;
+  const baseIndent = 4;
+  const comparedMargin = 2;
+  const indent = isCompared ? (depth * baseIndent) - comparedMargin : depth * baseIndent;
   return ' '.repeat(indent);
 };
 
