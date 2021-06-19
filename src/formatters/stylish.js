@@ -45,14 +45,14 @@ const iterateTree = (nested, depth) => {
       }
       default: {
         const space = calcIndent(depth);
-        return `${space}${key}: {\n${iterateTree(value, depth + 1, true)}\n${space}}`;
+        return `${space}${key}: {\n${iterateTree(value, depth + 1)}\n${space}}`;
       }
     }
   }).join('\n');
 };
 
 const stylish = (compared) => {
-  const result = iterateTree(compared, 1, true);
+  const result = iterateTree(compared, 1);
   return `{\n${result}\n}`;
 };
 
