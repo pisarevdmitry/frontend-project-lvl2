@@ -9,7 +9,7 @@ const formatReturnValue = (value) => {
 const plain = (compared) => {
   const iter = (nested, path) => {
     const keys = _.sortBy(Object.keys(nested));
-    const test = keys.map((key) => {
+    const result = keys.map((key) => {
       const { status, value } = nested[key];
       switch (status) {
         case 'added': {
@@ -29,7 +29,7 @@ const plain = (compared) => {
           return iter(value, `${path}${key}.`);
       }
     });
-    return test.filter((elem) => elem !== null).join('\n');
+    return result.filter((elem) => elem !== null).join('\n');
   };
   return iter(compared, '');
 };
