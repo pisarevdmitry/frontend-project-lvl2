@@ -1,59 +1,53 @@
 import _ from 'lodash';
 
+const calcIndent = (depth, isCompared = false) => {
+  const base = 4;
+  const indent = isCompared ? (depth * base) - 2 : depth * base;
+  return ' '.repeat(indent);
+};
+
 const formatNotCompared = (nested, depth) => {
   const keys = _.sortBy(Object.keys(nested));
   return keys.map((key) => {
-    const indent = depth * 4;
-    const space = ' '.repeat(indent);
+    const space = calcIndent(depth);
     return _.isObject(nested[key])
       ? `${space}${key}: {\n${formatNotCompared(nested[key], depth + 1)}\n${space}}`
       : `${space}${key}: ${nested[key]}`;
   }).join('\n');
 };
 
-const styleChangedValue = (params) => {
-  const {
-    value, space, indent, depth, symbol, key,
-  } = params;
-
+const styleChangedValue = (key, value, depth, symbol) => {
+  const indentCompared = calcIndent(depth, true);
   return _.isObject(value)
-    ? `${' '.repeat(indent - 2)}${symbol} ${key}: {\n${formatNotCompared(value, depth)}\n${space}}`
-    : `${' '.repeat(indent - 2)}${symbol} ${key}: ${value}`;
+    ? `${indentCompared}${symbol} ${key}: {\n${formatNotCompared(value, depth + 1)}\n${calcIndent(depth)}}`
+    : `${indentCompared}${symbol} ${key}: ${value}`;
 };
 
 const stylish = (compared) => {
   const iter = (nested, depth) => {
     const keys = _.sortBy(Object.keys(nested));
     return keys.map((key) => {
-      const indent = depth * 4;
-      const space = ' '.repeat(indent);
       const { status, value } = nested[key];
       switch (status) {
         case 'unchanged': {
-          return `${space}${key}: ${value}`;
+          return `${calcIndent(depth)}${key}: ${value}`;
         }
         case 'added': {
-          return styleChangedValue({
-            indent, value, key, space, depth: depth + 1, symbol: '+',
-          });
+          return styleChangedValue(key, value, depth, '+');
         }
         case 'deleted': {
-          return styleChangedValue({
-            indent, value, key, space, depth: depth + 1, symbol: '-',
-          });
+          return styleChangedValue(key, value, depth, '-');
         }
         case 'changed': {
           const { oldValue } = nested[key];
-          const deleted = styleChangedValue({
-            indent, value: oldValue, key, space, depth: depth + 1, symbol: '-',
-          });
-          const added = styleChangedValue({
-            indent, value, key, space, depth: depth + 1, symbol: '+',
-          });
+          const deleted = styleChangedValue(key, oldValue, depth, '-');
+          const added = styleChangedValue(key, value, depth, '+');
           return `${deleted}\n${added}`;
         }
-        default:
+        default: {
+          const space = calcIndent(depth);
           return `${space}${key}: {\n${iter(value, depth + 1, true)}\n${space}}`;
+        }
       }
     }).join('\n');
   };
