@@ -8,7 +8,7 @@ const calcIndent = (depth, isCompared = false) => {
 };
 
 const formatNotCompared = (obj, depth) => {
-  const keys = _.sortBy(Object.keys(obj));
+  const keys = _.sortBy(_.keys(obj));
   return keys.map((key) => {
     const space = calcIndent(depth);
     return _.isPlainObject(obj[key])
