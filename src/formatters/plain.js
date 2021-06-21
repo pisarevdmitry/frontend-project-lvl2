@@ -23,7 +23,7 @@ const iterateTree = (layer, path) => {
       case 'unchanged': {
         return null;
       }
-      case 'not compared': {
+      case 'continue compare': {
         const { children } = node;
         return iterateTree(children, `${path}${name}.`);
       }

@@ -43,7 +43,7 @@ const iterateTree = (layer, depth) => {
         const added = styleChangedValue(name, newValue, depth, '+');
         return `${deleted}\n${added}`;
       }
-      case 'not compared': {
+      case 'continue compare': {
         const space = calcIndent(depth);
         const { children } = node;
         return `${space}${name}: {\n${iterateTree(children, depth + 1)}\n${space}}`;
