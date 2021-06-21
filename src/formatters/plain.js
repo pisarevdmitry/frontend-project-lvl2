@@ -34,8 +34,6 @@ const iterateTree = (layer, path) => {
   return result.filter((elem) => elem !== null).join('\n');
 };
 
-const plain = ({ children }) => {
-  const result = iterateTree(children, '');
-  return result;
-};
+const plain = ({ children }) => iterateTree(children, '');
+
 export default plain;
