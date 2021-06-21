@@ -6,7 +6,7 @@ parserOptions:
   sourceType: module
 extends:
   - 'airbnb-base'  
-rules: {
-  no-console: off,
+rules:
+  no-console: off
   import/extensions: off
-}
+

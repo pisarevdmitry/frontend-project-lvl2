@@ -1,5 +1,15 @@
 import { test, expect } from '@jest/globals';
-import { getResult } from '../testUtils.js';
+import path from 'path';
+import process from 'process';
+import gendiff from '../src/index.js';
+
+const getFixturePath = (filename) => path.join(process.cwd(), '__fixtures__', filename);
+
+const getResult = (filename1, filename2, format = 'stylish') => {
+  const filepath1 = getFixturePath(filename1);
+  const filepath2 = getFixturePath(filename2);
+  return gendiff(filepath1, filepath2, format);
+};
 
 test('should work1', () => {
   const result = getResult('json1.json', 'Yaml2.yml');

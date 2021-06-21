@@ -1,10 +1,12 @@
 import { test, expect } from '@jest/globals';
 import path from 'path';
 import { readFileSync } from 'fs';
+import process from 'process';
+import gendiff from '../src/index.js';
 import parseFile from '../src/parsers.js';
 import compare from '../src/compare.js';
-import gendiff from '../src/index.js';
-import { getFixturePath } from '../testUtils.js';
+
+const getFixturePath = (filename) => path.join(process.cwd(), '__fixtures__', filename);
 
 const getTestData = (filename1, filename2) => {
   const filepath1 = getFixturePath(filename1);

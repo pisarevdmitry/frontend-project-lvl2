@@ -7,53 +7,56 @@ const calcIndent = (depth, isCompared = false) => {
   return ' '.repeat(indent);
 };
 
-const formatNotCompared = (nested, depth) => {
-  const keys = _.sortBy(Object.keys(nested));
+const formatNotCompared = (obj, depth) => {
+  const keys = _.sortBy(Object.keys(obj));
   return keys.map((key) => {
     const space = calcIndent(depth);
-    return _.isObject(nested[key])
-      ? `${space}${key}: {\n${formatNotCompared(nested[key], depth + 1)}\n${space}}`
-      : `${space}${key}: ${nested[key]}`;
+    return _.isPlainObject(obj[key])
+      ? `${space}${key}: {\n${formatNotCompared(obj[key], depth + 1)}\n${space}}`
+      : `${space}${key}: ${obj[key]}`;
   }).join('\n');
 };
 
 const styleChangedValue = (key, value, depth, symbol) => {
   const indentCompared = calcIndent(depth, true);
-  return _.isObject(value)
+  return _.isPlainObject(value)
     ? `${indentCompared}${symbol} ${key}: {\n${formatNotCompared(value, depth + 1)}\n${calcIndent(depth)}}`
     : `${indentCompared}${symbol} ${key}: ${value}`;
 };
 
-const iterateTree = (nested, depth) => {
-  const keys = _.sortBy(Object.keys(nested));
-  return keys.map((key) => {
-    const { status, value } = nested[key];
-    switch (status) {
+const iterateTree = (layer, depth) => {
+  const result = layer.map((node) => {
+    const { type, value, name } = node;
+    switch (type) {
       case 'unchanged': {
-        return `${calcIndent(depth)}${key}: ${value}`;
+        return `${calcIndent(depth)}${name}: ${value}`;
       }
       case 'added': {
-        return styleChangedValue(key, value, depth, '+');
+        return styleChangedValue(name, value, depth, '+');
       }
       case 'deleted': {
-        return styleChangedValue(key, value, depth, '-');
+        return styleChangedValue(name, value, depth, '-');
       }
       case 'changed': {
-        const { oldValue } = nested[key];
-        const deleted = styleChangedValue(key, oldValue, depth, '-');
-        const added = styleChangedValue(key, value, depth, '+');
+        const { oldValue, newValue } = node;
+        const deleted = styleChangedValue(name, oldValue, depth, '-');
+        const added = styleChangedValue(name, newValue, depth, '+');
         return `${deleted}\n${added}`;
       }
-      default: {
+      case 'not compared': {
         const space = calcIndent(depth);
-        return `${space}${key}: {\n${iterateTree(value, depth + 1)}\n${space}}`;
+        const { children } = node;
+        return `${space}${name}: {\n${iterateTree(children, depth + 1)}\n${space}}`;
       }
+      default:
+        return null;
     }
   }).join('\n');
+  return result;
 };
 
-const stylish = (compared) => {
-  const result = iterateTree(compared, 1);
+const stylish = ({ children }) => {
+  const result = iterateTree(children, 1);
   return `{\n${result}\n}`;
 };
 

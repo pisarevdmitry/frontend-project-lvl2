@@ -1,31 +1,57 @@
 import _ from 'lodash';
 
-const cloneValue = (value) => (_.isObject(value) ? _.cloneDeep(value) : value);
-
-const createElem = (status, value, oldValue = null) => ({
-  status,
-  value,
-  oldValue,
-});
-
-const compare = (obj1, obj2) => {
-  const mergedKeys = Object.keys({ ...obj1, ...obj2 });
-  const result = mergedKeys.reduce((acc, key) => {
-    if (!_.has(obj1, key)) {
-      return { ...acc, [key]: createElem('added', cloneValue(obj2[key])) };
+const buildDiffTree = (data1, data2) => {
+  const mergedKeys = _.union(_.keys(data1), _.keys(data2));
+  const sortedKeys = _.sortBy(mergedKeys);
+  const result = sortedKeys.map((key) => {
+    if (!_.has(data1, key)) {
+      const node = {
+        name: [key],
+        type: 'added',
+        value: data2[key],
+      };
+      return node;
     }
-    if (!_.has(obj2, key)) {
-      return { ...acc, [key]: createElem('deleted', cloneValue(obj1[key])) };
+    if (!_.has(data2, key)) {
+      const node = {
+        name: [key],
+        type: 'deleted',
+        value: data1[key],
+      };
+      return node;
     }
-    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-      return { ...acc, [key]: createElem(null, compare(obj1[key], obj2[key])) };
+    if (_.isPlainObject(data1[key]) && _.isPlainObject(data2[key])) {
+      const node = {
+        name: [key],
+        type: 'not compared',
+        children: buildDiffTree(data1[key], data2[key]),
+      };
+      return node;
     }
-    if (obj1[key] !== obj2[key]) {
-      return { ...acc, [key]: createElem('changed', obj2[key], obj1[key]) };
+    if (data1[key] !== data2[key]) {
+      const node = {
+        name: [key],
+        type: 'changed',
+        oldValue: data1[key],
+        newValue: data2[key],
+      };
+      return node;
     }
-    return { ...acc, [key]: createElem('unchanged', obj1[key]) };
-  }, {});
+    const node = {
+      name: [key],
+      type: 'unchanged',
+      value: data1[key],
+    };
+    return node;
+  });
   return result;
 };
+
+const compare = (data1, data2) => (
+  {
+    type: 'root',
+    children: buildDiffTree(data1, data2),
+  }
+);
 
 export default compare;

@@ -6,32 +6,36 @@ const formatReturnValue = (value) => {
   return value;
 };
 
-const plain = (compared) => {
-  const iter = (nested, path) => {
-    const keys = _.sortBy(Object.keys(nested));
-    const result = keys.map((key) => {
-      const { status, value } = nested[key];
-      switch (status) {
-        case 'added': {
-          return `Property '${path}${key}' was added with value: ${formatReturnValue(value)}`;
-        }
-        case 'deleted': {
-          return `Property '${path}${key}' was removed`;
-        }
-        case 'changed': {
-          const { oldValue } = nested[key];
-          return `Property '${path}${key}' was updated. From ${formatReturnValue(oldValue)} to ${formatReturnValue(value)}`;
-        }
-        case 'unchanged': {
-          return null;
-        }
-        default:
-          return iter(value, `${path}${key}.`);
+const iterateTree = (layer, path) => {
+  const result = layer.map((node) => {
+    const { type, value, name } = node;
+    switch (type) {
+      case 'added': {
+        return `Property '${path}${name}' was added with value: ${formatReturnValue(value)}`;
       }
-    });
-    return result.filter((elem) => elem !== null).join('\n');
-  };
-  return iter(compared, '');
+      case 'deleted': {
+        return `Property '${path}${name}' was removed`;
+      }
+      case 'changed': {
+        const { oldValue, newValue } = node;
+        return `Property '${path}${name}' was updated. From ${formatReturnValue(oldValue)} to ${formatReturnValue(newValue)}`;
+      }
+      case 'unchanged': {
+        return null;
+      }
+      case 'not compared': {
+        const { children } = node;
+        return iterateTree(children, `${path}${name}.`);
+      }
+      default:
+        return null;
+    }
+  });
+  return result.filter((elem) => elem !== null).join('\n');
 };
 
+const plain = ({ children }) => {
+  const result = iterateTree(children, '');
+  return result;
+};
 export default plain;
