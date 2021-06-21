@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-const formatReturnValue = (value) => {
-  if (_.isObject(value)) return '[complex value]';
+const formatValue = (value) => {
+  if (_.isPlainObject(value)) return '[complex value]';
   if (typeof (value) === 'string') return `'${value}'`;
   return value;
 };
@@ -11,14 +11,14 @@ const iterateTree = (layer, path) => {
     const { type, value, name } = node;
     switch (type) {
       case 'added': {
-        return `Property '${path}${name}' was added with value: ${formatReturnValue(value)}`;
+        return `Property '${path}${name}' was added with value: ${formatValue(value)}`;
       }
       case 'deleted': {
         return `Property '${path}${name}' was removed`;
       }
       case 'changed': {
         const { oldValue, newValue } = node;
-        return `Property '${path}${name}' was updated. From ${formatReturnValue(oldValue)} to ${formatReturnValue(newValue)}`;
+        return `Property '${path}${name}' was updated. From ${formatValue(oldValue)} to ${formatValue(newValue)}`;
       }
       case 'unchanged': {
         return null;
@@ -34,6 +34,6 @@ const iterateTree = (layer, path) => {
   return result.filter((elem) => elem !== null).join('\n');
 };
 
-const plain = ({ children }) => iterateTree(children, '');
+const formatPlain = ({ children }) => iterateTree(children, '');
 
-export default plain;
+export default formatPlain;

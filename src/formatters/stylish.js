@@ -55,9 +55,9 @@ const iterateTree = (layer, depth) => {
   return result;
 };
 
-const stylish = ({ children }) => {
+const formatStylish = ({ children }) => {
   const result = iterateTree(children, 1);
   return `{\n${result}\n}`;
 };
 
-export default stylish;
+export default formatStylish;
