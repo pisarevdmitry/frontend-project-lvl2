@@ -24,7 +24,7 @@ const styleChangedValue = (key, value, depth, symbol) => {
     : `${indentCompared}${symbol} ${key}: ${value}`;
 };
 
-const iterateTree = (layer, depth) => {
+const buildFormat = (layer, depth) => {
   const result = layer.map((node) => {
     const { type, value, name } = node;
     switch (type) {
@@ -46,7 +46,7 @@ const iterateTree = (layer, depth) => {
       case 'continue compare': {
         const space = calcIndent(depth);
         const { children } = node;
-        return `${space}${name}: {\n${iterateTree(children, depth + 1)}\n${space}}`;
+        return `${space}${name}: {\n${buildFormat(children, depth + 1)}\n${space}}`;
       }
       default:
         return null;
@@ -55,9 +55,7 @@ const iterateTree = (layer, depth) => {
   return result;
 };
 
-const formatStylish = ({ children }) => {
-  const result = iterateTree(children, 1);
+export default ({ children }) => {
+  const result = buildFormat(children, 1);
   return `{\n${result}\n}`;
 };
-
-export default formatStylish;

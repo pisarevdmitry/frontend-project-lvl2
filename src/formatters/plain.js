@@ -6,7 +6,7 @@ const formatValue = (value) => {
   return value;
 };
 
-const iterateTree = (layer, path) => {
+const buildFormat = (layer, path) => {
   const result = layer.map((node) => {
     const { type, value, name } = node;
     switch (type) {
@@ -25,7 +25,7 @@ const iterateTree = (layer, path) => {
       }
       case 'continue compare': {
         const { children } = node;
-        return iterateTree(children, `${path}${name}.`);
+        return buildFormat(children, `${path}${name}.`);
       }
       default:
         return null;
@@ -34,6 +34,4 @@ const iterateTree = (layer, path) => {
   return result.filter((elem) => elem !== null).join('\n');
 };
 
-const formatPlain = ({ children }) => iterateTree(children, '');
-
-export default formatPlain;
+export default ({ children }) => buildFormat(children, '');
