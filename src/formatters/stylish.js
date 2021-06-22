@@ -51,7 +51,7 @@ const buildFormat = (layer, depth) => {
       default:
         return null;
     }
-  }).join('\n');
+  }).filter((elem) => elem !== null).join('\n');
   return result;
 };
 
