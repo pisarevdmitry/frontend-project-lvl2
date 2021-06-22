@@ -7,4 +7,4 @@ lint:
 tests:
 	NODE_OPTIONS=--experimental-vm-modules npm test	
 tests-coverage:	
-	NODE_OPTIONS=--experimental-vm-modules npm test --  --coverage --coverageProvider=v8
+	NODE_OPTIONS=--experimental-vm-modules npm test -- --coverage --coverageProvider=v8
