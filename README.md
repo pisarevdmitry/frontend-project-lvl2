@@ -21,7 +21,6 @@
 type gendiff -h (for more help)
 ```
 
-type gendiff -h (for more help)  
 Example with plain jsons: [![asciicast](https://asciinema.org/a/1T7tjJ8V0VF1aLFhrnARsR6Ui.svg)](https://asciinema.org/a/1T7tjJ8V0VF1aLFhrnARsR6Ui)
 Example with plain yamls: [![asciicast](https://asciinema.org/a/t8hw8K1NQGQcLedOE7R3DAXyh.svg)](https://asciinema.org/a/t8hw8K1NQGQcLedOE7R3DAXyh)
 Example with stylish format: [![asciicast](https://asciinema.org/a/yo2ZK5FfgNkugPinnPBqUnhfE.svg)](https://asciinema.org/a/yo2ZK5FfgNkugPinnPBqUnhfE)
