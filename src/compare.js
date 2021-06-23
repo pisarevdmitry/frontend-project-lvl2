@@ -6,35 +6,35 @@ const buildDiffTree = (data1, data2) => {
   const result = sortedKeys.map((key) => {
     if (!_.has(data1, key)) {
       return {
-        name: [key],
+        name: key,
         type: 'added',
         value: data2[key],
       };
     }
     if (!_.has(data2, key)) {
       return {
-        name: [key],
+        name: key,
         type: 'deleted',
         value: data1[key],
       };
     }
     if (_.isPlainObject(data1[key]) && _.isPlainObject(data2[key])) {
       return {
-        name: [key],
+        name: key,
         type: 'parent',
         children: buildDiffTree(data1[key], data2[key]),
       };
     }
     if (data1[key] !== data2[key]) {
       return {
-        name: [key],
+        name: key,
         type: 'changed',
         oldValue: data1[key],
         newValue: data2[key],
       };
     }
     return {
-      name: [key],
+      name: key,
       type: 'unchanged',
       value: data1[key],
     };
