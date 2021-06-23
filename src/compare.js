@@ -21,7 +21,7 @@ const buildDiffTree = (data1, data2) => {
     if (_.isPlainObject(data1[key]) && _.isPlainObject(data2[key])) {
       return {
         name: [key],
-        type: 'continue compare',
+        type: 'parent',
         children: buildDiffTree(data1[key], data2[key]),
       };
     }

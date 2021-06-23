@@ -43,15 +43,15 @@ const buildFormat = (layer, depth) => {
         const added = styleChangedValue(name, newValue, depth, '+');
         return `${deleted}\n${added}`;
       }
-      case 'continue compare': {
+      case 'parent': {
         const space = calcIndent(depth);
         const { children } = node;
         return `${space}${name}: {\n${buildFormat(children, depth + 1)}\n${space}}`;
       }
       default:
-        return null;
+        throw new Error(`unsupported ${type} type`);
     }
-  }).filter((elem) => elem !== null).join('\n');
+  }).join('\n');
   return result;
 };
 

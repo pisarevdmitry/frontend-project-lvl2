@@ -23,12 +23,12 @@ const buildFormat = (layer, path) => {
       case 'unchanged': {
         return null;
       }
-      case 'continue compare': {
+      case 'parent': {
         const { children } = node;
         return buildFormat(children, `${path}${name}.`);
       }
       default:
-        return null;
+        throw new Error(`unsupported ${type} type`);
     }
   });
   return result.filter((elem) => elem !== null).join('\n');
