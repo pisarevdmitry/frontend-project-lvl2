@@ -12,23 +12,23 @@ const getResult = (filename1, filename2, format = 'stylish') => {
   return gendiff(filepath1, filepath2, format);
 };
 test('shoult work1', () => {
-  const result = getResult('yaml1.yaml', 'json2.json', 'json');
+  const result = getResult('file1.yaml', 'file2.json', 'json');
   const expected = readFileSync(getFixturePath('expected_json1.json'), 'utf-8');
   expect(result).toBe(expected);
 });
 
 test('shoult work2', () => {
-  const result = getResult('yaml2.yml', 'json1.json', 'json');
+  const result = getResult('file2.yml', 'file1.json', 'json');
   const expected = readFileSync(getFixturePath('expected_json2.json'), 'utf-8');
   expect(result).toBe(expected);
 });
 test('should work3', () => {
-  const result = getResult('yaml1.yaml', 'empty.json', 'json');
+  const result = getResult('file1.yaml', 'empty_file1.json', 'json');
   const expected = readFileSync(getFixturePath('expected_json3.json'), 'utf-8');
   expect(result).toBe(expected);
 });
 
 test('should work4', () => {
-  const result = getResult('empty.yml', 'empty.json', 'json');
+  const result = getResult('empty_file1.yml', 'empty_file1.json', 'json');
   expect(result).toBe('{"type":"root","children":[]}');
 });

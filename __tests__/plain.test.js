@@ -12,24 +12,24 @@ const getResult = (filename1, filename2, format = 'stylish') => {
 };
 
 test('shoult work1', () => {
-  const result = getResult('yaml1.yaml', 'json2.json', 'plain');
+  const result = getResult('file1.yaml', 'file2.json', 'plain');
   const expected = readFileSync(getFixturePath('expected_plain1.txt'), 'utf-8');
   expect(result).toBe(expected);
 });
 
 test('shoult work2', () => {
-  const result = getResult('yaml2.yml', 'json1.json', 'plain');
+  const result = getResult('file2.yml', 'file1.json', 'plain');
   const expected = readFileSync(getFixturePath('expected_plain2.txt'), 'utf-8');
   expect(result).toBe(expected);
 });
 test('should work3', () => {
-  const result = getResult('yaml1.yaml', 'empty.json', 'plain');
+  const result = getResult('file1.yaml', 'empty_file1.json', 'plain');
   const expected = readFileSync(getFixturePath('expected_plain3.txt'), 'utf-8');
   expect(result).toBe(expected);
 });
 
 test('should work4', () => {
-  const result = getResult('empty.yml', 'empty.json', 'plain');
+  const result = getResult('empty_file1.yml', 'empty_file1.json', 'plain');
   const expected = '';
   expect(result).toBe(expected);
 });
