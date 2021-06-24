@@ -19,12 +19,12 @@ test('shoult work1', () => {
 
 test('shoult work2', () => {
   const result = getResult('yaml2.yml', 'json1.json', 'json');
-  const expected = readFileSync(getFixturePath('expected_json2.txt'), 'utf-8');
+  const expected = readFileSync(getFixturePath('expected_json2.json'), 'utf-8');
   expect(result).toBe(expected);
 });
 test('should work3', () => {
   const result = getResult('yaml1.yaml', 'empty.json', 'json');
-  const expected = readFileSync(getFixturePath('expected_json3.txt'), 'utf-8');
+  const expected = readFileSync(getFixturePath('expected_json3.json'), 'utf-8');
   expect(result).toBe(expected);
 });
 
