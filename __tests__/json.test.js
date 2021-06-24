@@ -12,8 +12,8 @@ const getResult = (filename1, filename2, format = 'stylish') => {
   return gendiff(filepath1, filepath2, format);
 };
 test('shoult work1', () => {
-  const result = getResult('Yaml1.yaml', 'json2.json', 'json');
-  const expected = readFileSync(getFixturePath('expected_json1.txt'), 'utf-8');
+  const result = getResult('yaml1.yaml', 'json2.json', 'json');
+  const expected = readFileSync(getFixturePath('expected_json1.json'), 'utf-8');
   expect(result).toBe(expected);
 });
 
