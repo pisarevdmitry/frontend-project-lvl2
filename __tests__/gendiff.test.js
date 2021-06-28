@@ -12,78 +12,38 @@ const getResult = (filename1, filename2, format = 'stylish') => {
   return gendiff(filepath1, filepath2, format);
 };
 
-describe('stylish', () => {
-  test('should work1', () => {
-    const result = getResult('file1.json', 'file2.yml');
-    const expected = readFileSync(getFixturePath('expected_stylish1.txt'), 'utf-8');
-    expect(result).toBe(expected);
-  });
-
-  test('should work2', () => {
-    const result = getResult('file1.yaml', 'file2.json');
-    const expected = readFileSync(getFixturePath('expected_stylish2.txt'), 'utf-8');
-    expect(result).toBe(expected);
-  });
-
-  test('should work3', () => {
-    const result = getResult('file1.yaml', 'empty_file1.json');
-    const expected = readFileSync(getFixturePath('expected_stylish3.txt'), 'utf-8');
-    expect(result).toBe(expected);
-  });
-
-  test('should work4', () => {
-    const result = getResult('empty_file1.yml', 'empty_file1.json');
-    const expected = '{\n\n}';
+describe('stylish tests', () => {
+  const testsData = [
+    [getResult('file1.json', 'file2.yml'), readFileSync(getFixturePath('expected_stylish1.txt'), 'utf-8')],
+    [getResult('file1.yaml', 'file2.json'), readFileSync(getFixturePath('expected_stylish2.txt'), 'utf-8')],
+    [getResult('file1.yaml', 'empty_file1.json'), readFileSync(getFixturePath('expected_stylish3.txt'), 'utf-8')],
+    [getResult('empty_file1.yml', 'empty_file1.json'), '{\n\n}'],
+  ];
+  test.each(testsData)('should work %#', (result, expected) => {
     expect(result).toBe(expected);
   });
 });
 
-describe('plain', () => {
-  test('shoult work1', () => {
-    const result = getResult('file1.yaml', 'file2.json', 'plain');
-    const expected = readFileSync(getFixturePath('expected_plain1.txt'), 'utf-8');
-    expect(result).toBe(expected);
-  });
-
-  test('shoult work2', () => {
-    const result = getResult('file2.yml', 'file1.json', 'plain');
-    const expected = readFileSync(getFixturePath('expected_plain2.txt'), 'utf-8');
-    expect(result).toBe(expected);
-  });
-  test('should work3', () => {
-    const result = getResult('file1.yaml', 'empty_file1.json', 'plain');
-    const expected = readFileSync(getFixturePath('expected_plain3.txt'), 'utf-8');
-    expect(result).toBe(expected);
-  });
-
-  test('should work4', () => {
-    const result = getResult('empty_file1.yml', 'empty_file1.json', 'plain');
-    const expected = '';
+describe('plain tests', () => {
+  const testsData = [
+    [getResult('file1.yaml', 'file2.json', 'plain'), readFileSync(getFixturePath('expected_plain1.txt'), 'utf-8')],
+    [getResult('file2.yml', 'file1.json', 'plain'), readFileSync(getFixturePath('expected_plain2.txt'), 'utf-8')],
+    [getResult('file1.yaml', 'empty_file1.json', 'plain'), readFileSync(getFixturePath('expected_plain3.txt'), 'utf-8')],
+    [getResult('empty_file1.yml', 'empty_file1.json', 'plain'), ''],
+  ];
+  test.each(testsData)('should work %#', (result, expected) => {
     expect(result).toBe(expected);
   });
 });
 
-describe('json', () => {
-  test('shoult work1', () => {
-    const result = getResult('file1.yaml', 'file2.json', 'json');
-    const expected = readFileSync(getFixturePath('expected_json1.json'), 'utf-8');
+describe('json tests', () => {
+  const testsData = [
+    [getResult('file1.yaml', 'file2.json', 'json'), readFileSync(getFixturePath('expected_json1.json'), 'utf-8')],
+    [getResult('file2.yml', 'file1.json', 'json'), readFileSync(getFixturePath('expected_json2.json'), 'utf-8')],
+    [getResult('file1.yaml', 'empty_file1.json', 'json'), readFileSync(getFixturePath('expected_json3.json'), 'utf-8')],
+    [getResult('empty_file1.yml', 'empty_file1.json', 'json'), '{"type":"root","children":[]}'],
+  ];
+  test.each(testsData)('should work %#', (result, expected) => {
     expect(result).toBe(expected);
-  });
-
-  test('shoult work2', () => {
-    const result = getResult('file2.yml', 'file1.json', 'json');
-    const expected = readFileSync(getFixturePath('expected_json2.json'), 'utf-8');
-    expect(result).toBe(expected);
-  });
-
-  test('should work3', () => {
-    const result = getResult('file1.yaml', 'empty_file1.json', 'json');
-    const expected = readFileSync(getFixturePath('expected_json3.json'), 'utf-8');
-    expect(result).toBe(expected);
-  });
-
-  test('should work4', () => {
-    const result = getResult('empty_file1.yml', 'empty_file1.json', 'json');
-    expect(result).toBe('{"type":"root","children":[]}');
   });
 });

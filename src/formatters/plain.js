@@ -6,8 +6,8 @@ const formatValue = (value) => {
   return value;
 };
 
-const buildFormat = (layer, path) => {
-  const result = layer.map((node) => {
+const buildFormat = (children, path) => {
+  const result = children.map((node) => {
     const { type, value, name } = node;
     switch (type) {
       case 'added': {
@@ -24,8 +24,8 @@ const buildFormat = (layer, path) => {
         return null;
       }
       case 'parent': {
-        const { children } = node;
-        return buildFormat(children, `${path}${name}.`);
+        const { children: nodeChildren } = node;
+        return buildFormat(nodeChildren, `${path}${name}.`);
       }
       default:
         throw new Error(`unsupported ${type} type`);

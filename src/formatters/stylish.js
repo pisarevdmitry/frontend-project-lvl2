@@ -24,8 +24,8 @@ const styleChangedValue = (key, value, depth, symbol) => {
     : `${indentCompared}${symbol} ${key}: ${value}`;
 };
 
-const buildFormat = (layer, depth) => {
-  const result = layer.map((node) => {
+const buildFormat = (children, depth) => {
+  const result = children.map((node) => {
     const { type, value, name } = node;
     switch (type) {
       case 'unchanged': {
@@ -45,8 +45,8 @@ const buildFormat = (layer, depth) => {
       }
       case 'parent': {
         const space = calcIndent(depth);
-        const { children } = node;
-        return `${space}${name}: {\n${buildFormat(children, depth + 1)}\n${space}}`;
+        const { children: nodeChildren } = node;
+        return `${space}${name}: {\n${buildFormat(nodeChildren, depth + 1)}\n${space}}`;
       }
       default:
         throw new Error(`unsupported ${type} type`);
